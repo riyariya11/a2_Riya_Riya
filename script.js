@@ -77,7 +77,7 @@ function initMap() {
         });
       }, () => alert("Geolocation failed!"));
     } else {
-      //alert("Geolocation is not supported by your browser.");
+      alert("Geolocation is not supported by your browser.");
     }
   });
 }
