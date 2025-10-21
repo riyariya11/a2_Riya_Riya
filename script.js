@@ -30,6 +30,12 @@ function initMap() {
     { name: "Crooks Hollow Falls", lat: 43.2745, lng: -79.8905, category: "waterfall" },
     { name: "Buttermilk Falls", lat: 43.2370, lng: -79.9620, category: "waterfall" },
 
+    // Restaurants
+    { name: "Royal Hamilton Yacht Club", lat: 43.2668, lng: -79.8495, category: "restaurant" },
+    { name: "The French", lat: 43.2575, lng: -79.8678, category: "restaurant" },
+    { name: "Mulberry Street Coffeehouse", lat: 43.2601, lng: -79.8660, category: "restaurant" },
+    { name: "Earth to Table", lat: 43.2650, lng: -79.8690, category: "restaurant" },
+    { name: "Rapscallion Rogue Eatery", lat: 43.2585, lng: -79.8675, category: "restaurant" },
   ];
 
   defaultPlaces.forEach(place => addMarker(place));
