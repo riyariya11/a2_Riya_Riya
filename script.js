@@ -9,7 +9,7 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: hamilton,
     zoom: 12,
-    mapId: "f38bd73cc468fc68390a0ee7"  // <-- Replace with your Map ID
+    mapId: "f38bd73cc468fc68390a0ee7"  
   });
 
   geocoder = new google.maps.Geocoder();
