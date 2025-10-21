@@ -22,6 +22,14 @@ function initMap() {
     { name: "Hamilton Museum of Steam & Technology", lat: 43.2480, lng: -79.8700, category: "museum" },
     { name: "Whitehern Historic House", lat: 43.2559, lng: -79.8690, category: "museum" },
     { name: "Canadian Football Hall of Fame", lat: 43.2670, lng: -79.8670, category: "museum" },
+
+    // Waterfalls
+    { name: "Albion Falls", lat: 43.2481, lng: -79.8495, category: "waterfall" },
+    { name: "Webster's Falls", lat: 43.2444, lng: -79.9855, category: "waterfall" },
+    { name: "Tew's Falls", lat: 43.2385, lng: -79.9813, category: "waterfall" },
+    { name: "Crooks Hollow Falls", lat: 43.2745, lng: -79.8905, category: "waterfall" },
+    { name: "Buttermilk Falls", lat: 43.2370, lng: -79.9620, category: "waterfall" },
+
   ];
 
   defaultPlaces.forEach(place => addMarker(place));
