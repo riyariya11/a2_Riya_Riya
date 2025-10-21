@@ -36,8 +36,17 @@ function initMap() {
     { name: "Mulberry Street Coffeehouse", lat: 43.2601, lng: -79.8660, category: "restaurant" },
     { name: "Earth to Table", lat: 43.2650, lng: -79.8690, category: "restaurant" },
     { name: "Rapscallion Rogue Eatery", lat: 43.2585, lng: -79.8675, category: "restaurant" },
-  ];
 
+    // Attractions / Other
+    { name: "Centre Mall", lat: 43.2655, lng: -79.8725, category: "attraction" },
+    { name: "Art Gallery of Hamilton", lat: 43.2627, lng: -79.8691, category: "museum" },
+    { name: "Hamilton City Hall", lat: 43.2605, lng: -79.8662, category: "attraction" },
+    { name: "FirstOntario Centre", lat: 43.2635, lng: -79.8685, category: "attraction" },
+    { name: "Hamilton Farmers Market", lat: 43.2638, lng: -79.8690, category: "attraction" },
+    { name: "Jackson Square", lat: 43.2623, lng: -79.8683, category: "attraction" },
+    { name: "Canadian War Memorial", lat: 43.2620, lng: -79.8695, category: "attraction" }
+  ];
+  
   defaultPlaces.forEach(place => addMarker(place));
 
   // Form submission for adding marker by address
