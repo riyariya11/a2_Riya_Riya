@@ -16,11 +16,15 @@ function initMap() {
 
   // Default markers using coordinates
   const defaultPlaces = [
-    { name: "Royal Ontario Museum", lat: 43.6677, lng: -79.3948, category: "museum" },
+    { name: "Dundurn Castle", lat: 43.2488, lng: -79.8821, category: "museum" },
+    { name: "Canadian Warplane Heritage Museum", lat: 43.2066, lng: -79.8794, category: "museum" },
+    { name: "Albion Falls", lat: 43.2481, lng: -79.8495, category: "waterfall" },
     { name: "Webster's Falls", lat: 43.2444, lng: -79.9855, category: "waterfall" },
-    { name: "The French", lat: 43.2575, lng: -79.8678, category: "restaurant" }
+    { name: "Royal Hamilton Yacht Club", lat: 43.2668, lng: -79.8495, category: "restaurant" },
+    { name: "The French", lat: 43.2575, lng: -79.8678, category: "restaurant" },
+    { name: "Mulberry Street Coffeehouse", lat: 43.2601, lng: -79.8660, category: "restaurant" }
   ];
-
+  
   defaultPlaces.forEach(place => addMarker(place));
 
   // Form submission for adding marker by address
