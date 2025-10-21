@@ -1,109 +1,105 @@
-// StAuth10244: I Riya Riya, 000922180 certify that this material is my original work. No other person's work has been used without due acknowledgement. I have not made my work available to anyone else.
-
 let map;
 let markers = [];
-let userMarker = null;
 let geocoder;
-let directionsService;
-let directionsRenderer;
 
 function initMap() {
-  geocoder = new google.maps.Geocoder();
-  directionsService = new google.maps.DirectionsService();
-  directionsRenderer = new google.maps.DirectionsRenderer();
+  const hamilton = { lat: 43.2557, lng: -79.8711 };
 
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 43.2557, lng: -79.8711 }, // Hamilton
-    zoom: 12
+  // Initialize map with Map ID
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: hamilton,
+    zoom: 12,
+    mapId: "f38bd73cc468fc68390a0ee7"  // <-- Replace with your Map ID
   });
 
-  directionsRenderer.setMap(map);
+  geocoder = new google.maps.Geocoder();
 
-  // Add initial 10 markers
-  const initialLocations = [
-    { name: "Art Gallery of Hamilton", address: "123 King St W, Hamilton", category: "museum" },
-    { name: "Albion Falls", address: "885 Mountain Brow Blvd, Hamilton", category: "waterfall" },
-    // ... add 8 more locations of your choice
+  // Default markers using coordinates
+  const defaultPlaces = [
+    { name: "Royal Ontario Museum", lat: 43.6677, lng: -79.3948, category: "museum" },
+    { name: "Webster's Falls", lat: 43.2444, lng: -79.9855, category: "waterfall" },
+    { name: "The French", lat: 43.2575, lng: -79.8678, category: "restaurant" }
   ];
 
-  initialLocations.forEach(loc => {
-    addMarkerFromAddress(loc.address, loc.name, loc.category);
+  defaultPlaces.forEach(place => addMarker(place));
+
+  // Form submission for adding marker by address
+  document.getElementById("addForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const address = document.getElementById("address").value;
+    const category = document.getElementById("category").value;
+
+    addMarker({ name, address, category });
+    this.reset();
   });
 
-  document.getElementById('addForm').addEventListener('submit', handleAddMarker);
-  document.getElementById('locateBtn').addEventListener('click', handleGeolocation);
-}
-
-function addMarkerFromAddress(address, name, category) {
-  geocoder.geocode({ address: address }, (results, status) => {
-    if (status === 'OK') {
-      const marker = new google.maps.Marker({
-        map,
-        position: results[0].geometry.location,
-        title: name,
-        category
-      });
-
-      const info = new google.maps.InfoWindow({
-        content: `<strong>${name}</strong><br>${address}<br><button onclick="getDirections(${results[0].geometry.location.lat()},${results[0].geometry.location.lng()})">Get Directions</button>`
-      });
-
-      marker.addListener('click', () => info.open(map, marker));
-      markers.push(marker);
-    }
-  });
-}
-
-function filterMarkers(category) {
-  markers.forEach(m => {
-    if (category === 'all' || m.category === category) {
-      m.setMap(map);
+  // Geolocation button
+  document.getElementById("locateBtn").addEventListener("click", () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        map.setCenter(pos);
+        map.setZoom(14);
+        new google.maps.Marker({
+          position: pos,
+          map: map,
+          title: "You are here!"
+        });
+      }, () => alert("Geolocation failed!"));
     } else {
-      m.setMap(null);
+      alert("Geolocation is not supported by your browser.");
     }
   });
 }
 
-function handleAddMarker(e) {
-  e.preventDefault();
-  const address = document.getElementById('address').value;
-  const name = document.getElementById('name').value;
-  const category = document.getElementById('category').value;
-  addMarkerFromAddress(address, name, category);
-  e.target.reset();
-}
-
-function handleGeolocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      const userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      if (userMarker) userMarker.setMap(null);
-      userMarker = new google.maps.Marker({
-        map,
-        position: userPos,
-        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-        title: "You are here"
-      });
-      map.setCenter(userPos);
+// Add marker function
+function addMarker(place) {
+  if (place.lat && place.lng) {
+    // Use coordinates for default markers
+    const marker = new google.maps.Marker({
+      map: map,
+      position: { lat: place.lat, lng: place.lng },
+      title: place.name,
+      category: place.category
     });
-  } else {
-    alert("Geolocation not supported");
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `<h6>${place.name}</h6><p>${place.category}</p>`
+    });
+
+    marker.addListener("click", () => infoWindow.open(map, marker));
+    markers.push(marker);
+  } else if (place.address) {
+    // Use geocoding for user-added markers
+    geocoder.geocode({ address: place.address }, (results, status) => {
+      if (status === "OK") {
+        const marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location,
+          title: place.name,
+          category: place.category
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: `<h6>${place.name}</h6><p>${place.category}</p>`
+        });
+
+        marker.addListener("click", () => infoWindow.open(map, marker));
+        markers.push(marker);
+      } else {
+        alert(`Geocode failed for "${place.address}": ${status}`);
+      }
+    });
   }
 }
 
-function getDirections(destLat, destLng) {
-  if (!userMarker) {
-    alert("Please click the location button first.");
-    return;
-  }
-  const request = {
-    origin: userMarker.getPosition(),
-    destination: { lat: destLat, lng: destLng },
-    travelMode: google.maps.TravelMode.DRIVING
-  };
-  directionsService.route(request, (result, status) => {
-    if (status === 'OK') {
-      directionsRenderer.setDirections(result);
-    }
+// Filter markers by category
+function filterMarkers(category) {
+  markers.forEach(marker => {
+    marker.setMap((category === "all" || marker.category === category) ? map : null);
   });
 }
