@@ -46,7 +46,7 @@ function initMap() {
     { name: "Jackson Square", lat: 43.2623, lng: -79.8683, category: "attraction" },
     { name: "Canadian War Memorial", lat: 43.2620, lng: -79.8695, category: "attraction" }
   ];
-  
+
   defaultPlaces.forEach(place => addMarker(place));
 
   // Form submission for adding marker by address
@@ -77,7 +77,7 @@ function initMap() {
         });
       }, () => alert("Geolocation failed!"));
     } else {
-      alert("Geolocation is not supported by your browser.");
+      //alert("Geolocation is not supported by your browser.");
     }
   });
 }
